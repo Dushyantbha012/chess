@@ -28,14 +28,22 @@ export class Game {
     //validation
     //is it this users move
     //is the move valid
-    if (this.board.moves.length % 2 === 0 && player !== this.player1) {
+    console.log("inside make move");
+    if (player === this.player1 && this.board.turn() === "b") {
+      console.log("wrong turn");
+      this.player2.emit(JSON.stringify({ message: "its not your move" }));
       return;
     }
-    if (this.board.moves.length % 2 === 1 && player !== this.player2) {
+    if (player === this.player2 && this.board.turn() === "w") {
+      console.log("wrong turn");
+      this.player1.emit(JSON.stringify({ message: "its not your move" }));
       return;
     }
+    console.log("did not early return ");
     try {
+      console.log("checking the move");
       this.board.move(move);
+      console.log("move done");
     } catch (e) {
       return;
     }
@@ -58,13 +66,13 @@ export class Game {
     }
     //check if the game is over
     //send updated board to both players
-    this.player1.emit(
+    this.player1.send(
       JSON.stringify({
         type: MOVE,
         payload: this.board.turn(),
       })
     );
-    this.player2.emit(
+    this.player2.send(
       JSON.stringify({
         type: MOVE,
         payload: this.board.turn(),
