@@ -33,7 +33,7 @@ export class GameManager {
         console.log("inside move");
         const game = this.games.find((game) => game.isThisGame(socket));
         if (game) {
-          game.makeMove(socket, message.move);
+          game.makeMove(socket, message.payload);
         }
       }
     });

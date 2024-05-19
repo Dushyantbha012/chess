@@ -29,6 +29,7 @@ export class Game {
     //is it this users move
     //is the move valid
     console.log("inside make move");
+    console.log("move is ", move);
     if (player === this.player1 && this.board.turn() === "b") {
       console.log("wrong turn");
       this.player2.emit(JSON.stringify({ message: "its not your move" }));
@@ -49,6 +50,7 @@ export class Game {
     }
     //update the board
     //push the move
+    console.log("here");
     if (this.board.isGameOver()) {
       this.player1.emit(
         JSON.stringify({
@@ -69,13 +71,15 @@ export class Game {
     this.player1.send(
       JSON.stringify({
         type: MOVE,
-        payload: this.board.turn(),
+        payload: move,
+        turn: this.board.turn(),
       })
     );
     this.player2.send(
       JSON.stringify({
         type: MOVE,
-        payload: this.board.turn(),
+        payload: move,
+        turn: this.board.turn(),
       })
     );
   }
